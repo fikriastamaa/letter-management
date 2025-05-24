@@ -1,0 +1,84 @@
+### Register User (MySQL)
+POST http://localhost:5000/register
+Content-Type: application/json
+
+{
+  "email": "user1@example.com",
+  "username": "user1",
+  "password": "password123"
+}
+
+### Login User (MySQL)
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+  "email": "user1@example.com",
+  "password": "password123"
+}
+
+### Surat Masuk (PostgreSQL) - Get All
+GET http://localhost:5000/surat-masuk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsImVtYWlsIjoidXNlcjFAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImNyZWF0ZWRfYXQiOiIyMDI1LTA1LTI0VDA3OjU4OjQzLjAwMFoiLCJpYXQiOjE3NDgwNzQ1MzcsImV4cCI6MTc0ODA3NTQzN30.m76cP4SlE8Vi2dXDWrextph_VFg74f8UyjJi2CpgK4s
+
+### Surat Masuk (PostgreSQL) - Create
+POST http://localhost:5000/surat-masuk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsImVtYWlsIjoidXNlcjFAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImNyZWF0ZWRfYXQiOiIyMDI1LTA1LTI0VDA3OjU4OjQzLjAwMFoiLCJpYXQiOjE3NDgwNzQ1MzcsImV4cCI6MTc0ODA3NTQzN30.m76cP4SlE8Vi2dXDWrextph_VFg74f8UyjJi2CpgK4s
+Content-Type: application/json
+
+{
+  "no_surat": "SM-001",
+  "tanggal": "2025-05-24",
+  "pengirim": "user1",
+  "perihal": "Permohonan Informasi",
+  "file_path": "/path/to/file.pdf",
+  "user_id_tujuan": 2
+}
+
+### Surat Masuk (PostgreSQL) - Update
+PUT http://localhost:5000/surat-masuk/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsImVtYWlsIjoidXNlcjFAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImNyZWF0ZWRfYXQiOiIyMDI1LTA1LTI0VDA3OjU4OjQzLjAwMFoiLCJpYXQiOjE3NDgwNzQ1MzcsImV4cCI6MTc0ODA3NTQzN30.m76cP4SlE8Vi2dXDWrextph_VFg74f8UyjJi2CpgK4s
+Content-Type: application/json
+
+{
+  "no_surat": "SM-001-UPDATED",
+  "tanggal": "2025-05-25",
+  "pengirim": "user1",
+  "perihal": "Update Permohonan",
+  "file_path": "/path/to/file2.pdf"
+}
+
+### Surat Masuk (PostgreSQL) - Update Status
+PATCH http://localhost:5000/surat-masuk/2/status
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsImVtYWlsIjoidXNlcjFAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImNyZWF0ZWRfYXQiOiIyMDI1LTA1LTI0VDA3OjU4OjQzLjAwMFoiLCJpYXQiOjE3NDgwNzQ1MzcsImV4cCI6MTc0ODA3NTQzN30.m76cP4SlE8Vi2dXDWrextph_VFg74f8UyjJi2CpgK4s
+Content-Type: application/json
+
+{
+  "status": "Selesai"
+}
+
+### Surat Masuk (PostgreSQL) - Delete
+DELETE http://localhost:5000/surat-masuk/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsImVtYWlsIjoidXNlcjFAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImNyZWF0ZWRfYXQiOiIyMDI1LTA1LTI0VDA3OjU4OjQzLjAwMFoiLCJpYXQiOjE3NDgwNzQ1MzcsImV4cCI6MTc0ODA3NTQzN30.m76cP4SlE8Vi2dXDWrextph_VFg74f8UyjJi2CpgK4s
+
+### Jawaban Surat (PostgreSQL) - Get by Surat Masuk ID
+GET http://localhost:5000/jawaban-surat/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsImVtYWlsIjoidXNlcjFAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImNyZWF0ZWRfYXQiOiIyMDI1LTA1LTI0VDA3OjU4OjQzLjAwMFoiLCJpYXQiOjE3NDgwNzQ1MzcsImV4cCI6MTc0ODA3NTQzN30.m76cP4SlE8Vi2dXDWrextph_VFg74f8UyjJi2CpgK4s
+
+### Jawaban Surat (PostgreSQL) - Create
+POST http://localhost:5000/jawaban-surat
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsImVtYWlsIjoidXNlcjFAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImNyZWF0ZWRfYXQiOiIyMDI1LTA1LTI0VDA3OjU4OjQzLjAwMFoiLCJpYXQiOjE3NDgwNzQ1MzcsImV4cCI6MTc0ODA3NTQzN30.m76cP4SlE8Vi2dXDWrextph_VFg74f8UyjJi2CpgK4s
+Content-Type: application/json
+
+{
+  "id_surat_masuk": 1,
+  "tanggal_jawaban": "2025-05-26",
+  "isi_jawaban": "Jawaban untuk surat masuk 1",
+  "file_path": "/path/to/jawaban.pdf"
+}
+
+### Logout
+GET http://localhost:5000/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsImVtYWlsIjoidXNlcjFAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImNyZWF0ZWRfYXQiOiIyMDI1LTA1LTI0VDA3OjU4OjQzLjAwMFoiLCJpYXQiOjE3NDgwNzQ1MzcsImV4cCI6MTc0ODA3NTQzN30.m76cP4SlE8Vi2dXDWrextph_VFg74f8UyjJi2CpgK4s
+
+

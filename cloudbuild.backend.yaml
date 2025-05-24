@@ -1,0 +1,53 @@
+steps:
+  # Ngambil data env yg disimpen di cloud storage pake gsuri
+  - name: "gcr.io/cloud-builders/gsutil"
+    args: ["cp", "${_ENV}", "backend/.env"]
+
+  # Membuat image dengan perintah "cloud build -t gcr.io/$PROJECT_ID/tcc-be-rest ."
+  # Project ID akan secara otomatis terisi ketika melakukan deploy di project yg dipilih
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/be-auth-febrian", "."]
+    dir: "backend"
+
+  # Meng-upload/push image yg telah dibuat ke Artifact Registry
+  # Pada bagian ini, dijalankan perintah "docker push 'gcr.io/$PROJECT_ID/tcc-be-rest'"
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/be-auth-febrian"]
+
+  # Melakukan deploy ke cloud run menggunakan image yg telah di-upload/push pada langkah sebelumnya
+  # Pada bagian ini, dijalankan perintah sebagai berikut.
+  # "gcloud run deploy tcc-be-rest \
+  #       --image 'gcr.io/$PROJECT_ID/tcc-be-rest \
+  #       --timeout 1000s \
+  #       --port 5000 \
+  #       --region us-central1 \
+  #       --allow-unauthenticated' \
+  #
+  # Keterangan:
+  # "gcloud run deploy be-rest": Perintah yang digunakan untuk mendeploy service ke cloud run dengan nama "be-rest"
+  # "--image 'gcr.io/$PROJECT_ID/tcc-be-rest'": Image yang akan di-deploy
+  # "--timeout 1000s": Mengatur waktu maksimum loading menjadi 1000s
+  # "--port 5000": Mengatur port yang akan digunakan (disamakan dengan port yg di-listen oleh server)
+  # "--region us-central1": Memilih us-central1 sebagai region yg akan digunakan pada cloud run
+  # "--allow-unauthenticated": Agar BE dapat diakses di mana saja tanpa memerlukan autentikasi
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      [
+        "run",
+        "deploy",
+        "be-auth-febrian",
+        "--image",
+        "gcr.io/$PROJECT_ID/be-auth-febrian",
+        "--timeout",
+        "1000s",
+        "--port",
+        "5000",
+        "--region",
+        "us-central1",
+        "--allow-unauthenticated",
+      ]
+
+# Log hanya akan disimpan di Google Cloud Logging
+# Log tidak akan disimpan di Google Cloud Storage (butuh hak akses).
+options:
+  logging: CLOUD_LOGGING_ONLY
