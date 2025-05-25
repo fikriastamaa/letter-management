@@ -126,6 +126,8 @@ export const AuthProvider = ({ children }) => {
       
       // Clear Authorization header
       delete axios.defaults.headers.common['Authorization'];
+      // Call backend logout endpoint
+      await axios.get(`${BASE_URL}/logout`);
     } catch (error) {
       console.error('Logout failed:', error);
     }

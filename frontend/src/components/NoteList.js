@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useRef, useCallback } from "rea
 import "../styles/styles.css";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils";
 
 const NoteList = () => {
   const [suratMasuk, setSuratMasuk] = useState([]);
@@ -36,7 +37,7 @@ const NoteList = () => {
     try {
       setError("");
       setLoading(true);
-      const response = await authAxios.get('/surat-masuk');
+      const response = await authAxios.get(`${BASE_URL}/surat-masuk`);
       setSuratMasuk(response.data);
     } catch (error) {
       console.error("Fetch surat masuk error:", error, error.response);
@@ -57,7 +58,7 @@ const NoteList = () => {
   // Ambil jawaban surat dari backend
   const getJawabanSurat = useCallback(async () => {
     try {
-      const response = await authAxios.get('/jawaban-surat');
+      const response = await authAxios.get(`${BASE_URL}/jawaban-surat`);
       setJawabanSurat(response.data);
     } catch (error) {
       // Optional: tampilkan error jika perlu
@@ -82,7 +83,7 @@ const NoteList = () => {
   // Ambil daftar petugas saat form create dibuka
   useEffect(() => {
     if (showCreateForm && user && user.role === "user") {
-      authAxios.get("/users?role=petugas")
+      authAxios.get(`${BASE_URL}/users?role=petugas`)
         .then(res => {
           if (Array.isArray(res.data) && res.data.length > 0) {
             setPetugasList(res.data);
@@ -97,7 +98,7 @@ const NoteList = () => {
   // Ambil semua user untuk admin
   useEffect(() => {
     if (user && user.role === "admin") {
-      authAxios.get("/users")
+      authAxios.get(`${BASE_URL}/users`)
         .then(res => setAllUsers(res.data))
         .catch(() => setAllUsers([]));
     }
@@ -106,7 +107,7 @@ const NoteList = () => {
   const deleteSurat = async (id) => {
     try {
       setError("");
-      await authAxios.delete(`/surat-masuk/${id}`);
+      await authAxios.delete(`${BASE_URL}/surat-masuk/${id}`);
       setSuratMasuk(suratMasuk.filter((surat) => surat.id !== id));
     } catch (error) {
       setError("Failed to delete surat. Please try again.");
@@ -116,7 +117,7 @@ const NoteList = () => {
   const updateStatus = async (id, status) => {
     try {
       setError("");
-      await authAxios.patch(`/surat-masuk/${id}/status`, { status });
+      await authAxios.patch(`${BASE_URL}/surat-masuk/${id}/status`, { status });
       getSuratMasuk();
       setStatusUpdate((prev) => ({ ...prev, [id]: "" }));
     } catch (error) {
@@ -143,14 +144,14 @@ const NoteList = () => {
     try {
       setError("");
       const jawaban = jawabanInput[id];
-      await authAxios.post('/jawaban-surat', {
+      await authAxios.post(`${BASE_URL}/jawaban-surat`, {
         id_surat_masuk: id,
         tanggal_jawaban: jawaban.tanggal_jawaban,
         isi_jawaban: jawaban.isi_jawaban,
         file_path: jawaban.file_path
       });
       // Setelah kirim jawaban, update status surat menjadi "Selesai"
-      await authAxios.patch(`/surat-masuk/${id}/status`, { status: "Selesai" });
+      await authAxios.patch(`${BASE_URL}/surat-masuk/${id}/status`, { status: "Selesai" });
       setShowJawabanForm((prev) => ({ ...prev, [id]: false }));
       setJawabanInput((prev) => ({ ...prev, [id]: {} }));
       // Hot reload data
@@ -165,7 +166,7 @@ const NoteList = () => {
   const handleCreateSurat = async (e) => {
     e.preventDefault();
     try {
-      await authAxios.post("/surat-masuk", formInput);
+      await authAxios.post(`${BASE_URL}/surat-masuk`, formInput);
       setShowCreateForm(false);
       getSuratMasuk();
     } catch (err) {
@@ -199,9 +200,9 @@ const NoteList = () => {
     try {
       const newRole = editRole[userId];
       if (!newRole) return;
-      await authAxios.patch(`/users/${userId}/role`, { role: newRole });
+      await authAxios.patch(`${BASE_URL}/users/${userId}/role`, { role: newRole });
       // Refresh daftar user
-      const res = await authAxios.get("/users");
+      const res = await authAxios.get(`${BASE_URL}/users`);
       setAllUsers(res.data);
       setEditRole(prev => ({ ...prev, [userId]: undefined }));
     } catch (err) {
