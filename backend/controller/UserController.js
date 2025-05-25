@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 async function getUser(req, res) {
   try {
     const users = await User.findAll({
-      attributes: ['id', 'email', 'username'] // Exclude sensitive fields
+      attributes: ['id', 'email', 'username', 'role'] // Tambahkan 'role' di sini
     });
     res.status(200).json(users);
   } catch (error) {
@@ -198,3 +198,15 @@ async function login(req, res) {
 // Frontend dapat menyimpan safeUserData ke localStorage/sessionStorage untuk akses user_id, username, dan role selama sesi login.
 
 export { login, logout, getUser, register };
+
+export async function getPetugasList(req, res) {
+  try {
+    const petugas = await User.findAll({
+      where: { role: "petugas" },
+      attributes: ["id", "username", "email"]
+    });
+    res.json(petugas);
+  } catch (err) {
+    res.status(500).json({ message: "Gagal mengambil data petugas" });
+  }
+}

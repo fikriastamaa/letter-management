@@ -1,6 +1,6 @@
 import express from 'express';
 import { getSuratMasuk, createSuratMasuk, updateSuratMasuk, deleteSuratMasuk, updateStatusSurat } from '../controller/SuratMasukController.js';
-import { getJawabanSurat, createJawabanSurat } from '../controller/JawabanSuratController.js';
+import { getJawabanSuratBySuratMasukId, getAllJawabanSurat, createJawabanSurat } from '../controller/JawabanSuratController.js';
 import { login, register, logout } from '../controller/UserController.js';
 import { verifyToken } from '../middleware/VerifyToken.js';
 import { refreshToken } from '../controller/RefreshToken.js';
@@ -16,7 +16,8 @@ router.delete('/surat-masuk/:id', verifyToken, deleteSuratMasuk);
 router.patch('/surat-masuk/:id/status', verifyToken, updateStatusSurat);
 
 // Jawaban Surat (PostgreSQL)
-router.get('/jawaban-surat/:id', verifyToken, getJawabanSurat);
+router.get('/jawaban-surat', verifyToken, getAllJawabanSurat); // untuk semua jawaban surat (list balasan)
+router.get('/jawaban-surat/:id', verifyToken, getJawabanSuratBySuratMasukId); // untuk 1 surat masuk
 router.post('/jawaban-surat', verifyToken, createJawabanSurat);
 
 // Endpoint user (MySQL)

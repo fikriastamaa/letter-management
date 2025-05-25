@@ -6,10 +6,10 @@
 
 :root {
   /* Main color scheme */
-  --primary: #6366f1;
+  --primary: #6a82fb;
   --primary-dark: #4f46e5;
-  --secondary: #8b5cf6;
-  --dark: #1e293b;
+  --secondary: #fc5c7d;
+  --dark: #181c24;
   --light: #f8fafc;
   --gray-100: #f1f5f9;
   --gray-200: #e2e8f0;
@@ -20,8 +20,12 @@
   --danger-dark: #dc2626;
   --success: #22c55e;
   --success-dark: #16a34a;
-  --warning: #f59e0b;
-  --warning-dark: #d97706;
+  --warning: #fbbf24;
+  --warning-dark: #f59e0b;
+  --gmail-row-bg: rgba(36, 40, 47, 0.85);
+  --gmail-row-hover: rgba(60, 65, 80, 0.95);
+  --gmail-card-bg: rgba(30, 34, 40, 0.65);
+  --gmail-border: 1.5px solid rgba(106,130,251,0.18);
 }
 
 body {
@@ -36,6 +40,7 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 30px 20px;
+  background: linear-gradient(135deg, var(--dark) 0%, #0f172a 100%);
 }
 
 /* Header layout */
@@ -48,6 +53,7 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  background: linear-gradient(135deg, var(--dark) 0%, #0f172a 100%);
   width: 100%;
 }
 
@@ -96,8 +102,8 @@ header h1::after {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: var(--light);
+  background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+  color: #fff !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -239,7 +245,7 @@ header h1::after {
 
 .search-input:focus {
   outline: none;
-  box-shadow: 0 5px 20px rgba(99, 102, 241, 0.3),
+  box-shadow: 0 5px 20px rgba(106, 130, 251, 0.3),
               0 1px 3px rgba(255, 255, 255, 0.1) inset;
   background-color: rgba(255, 255, 255, 0.08);
 }
@@ -319,7 +325,7 @@ header h1::after {
 .input-field:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 0 0 2px rgba(106, 130, 251, 0.3);
   background-color: rgba(255, 255, 255, 0.08);
 }
 
@@ -380,21 +386,23 @@ header h1::after {
 }
 
 .delete-button {
-  background: linear-gradient(135deg, var(--danger), var(--danger-dark));
-  color: white;
+  background: rgba(239,68,68,0.15) !important;
+  color: #ef4444 !important;
 }
 
 .delete-button:hover {
-  box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+  background: #ef4444 !important;
+  color: #fff !important;
 }
 
 .edit-button {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
+  background: rgba(106,130,251,0.15) !important;
+  color: #6a82fb !important;
 }
 
 .edit-button:hover {
-  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+  background: #6a82fb !important;
+  color: #fff !important;
 }
 
 /* Note List Styles */
@@ -683,127 +691,80 @@ header h1::after {
   }
 }
 
-/* User dropdown menu styles */
-.user-menu {
-  position: relative;
+/* Gmail-style list container and row effects */
+.gmail-list-container {
+  background: var(--gmail-card-bg) !important;
+  border: var(--gmail-border) !important;
+  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
 }
 
-.avatar-container {
-  display: flex;
-  align-items: center;
+.gmail-row {
+  background: var(--gmail-row-bg) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  transition: background 0.2s, box-shadow 0.2s;
   cursor: pointer;
-  padding: 2px;
-  border-radius: 50%;
-  transition: all 0.2s ease;
 }
 
-.avatar-container:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.gmail-row:hover {
+  background: var(--gmail-row-hover) !important;
+  box-shadow: 0 2px 12px rgba(106,130,251,0.10);
 }
 
-.user-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: var(--light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 18px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease;
+.button.edit-button {
+  background: rgba(106,130,251,0.15) !important;
+  color: #6a82fb !important;
+}
+.button.edit-button:hover {
+  background: #6a82fb !important;
+  color: #fff !important;
 }
 
-.avatar-container:hover .user-avatar {
-  transform: scale(1.05);
+.button.save-button {
+  background: rgba(34,197,94,0.15) !important;
+  color: #22c55e !important;
+}
+.button.save-button:hover {
+  background: #22c55e !important;
+  color: #fff !important;
 }
 
-.dropdown-menu {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  background: rgba(30, 41, 59, 0.95);
+.button.delete-button {
+  background: rgba(239,68,68,0.15) !important;
+  color: #ef4444 !important;
+}
+.button.delete-button:hover {
+  background: #ef4444 !important;
+  color: #fff !important;
+}
+
+/* Status badge colors: ubah semua badge ke nuansa biru */
+.status-badge {
+  padding: 4px 14px;
   border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-  width: 220px;
-  overflow: hidden;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 100;
-  animation: dropdown-fade 0.2s ease;
-}
-
-@keyframes dropdown-fade {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.dropdown-header {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.dropdown-username {
   font-weight: 600;
-  font-size: 16px;
-  color: var(--light);
-}
-
-.dropdown-email {
   font-size: 13px;
-  color: var(--gray-400);
-  word-break: break-all;
+  display: inline-block;
+  background: rgba(106,130,251,0.18); /* biru muda transparan */
+  color: #6a82fb; /* biru utama */
+  border: 1px solid #6a82fb22;
+}
+.status-menunggu {
+  background: rgba(106,130,251,0.18);
+  color: #6a82fb;
+}
+.status-selesai {
+  background: rgba(106,130,251,0.28);
+  color: #4f46e5;
+}
+.status-ditolak {
+  background: rgba(106,130,251,0.10);
+  color: #4f46e5;
 }
 
-.dropdown-divider {
-  height: 1px;
-  background-color: rgba(255, 255, 255, 0.1);
-  margin: 0;
-}
-
-.dropdown-item {
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  color: var(--gray-300);
-}
-
-.dropdown-item:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: var(--light);
-}
-
-.dropdown-icon {
-  display: flex;
-  align-items: center;
-  color: var(--gray-400);
-}
-
-.dropdown-item:hover .dropdown-icon {
-  color: var(--danger);
-}
-
-@media (max-width: 600px) {
-  .dropdown-menu {
-    width: 200px;
-  }
-  
-  .user-avatar {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-  }
+/* Avatar */
+.user-avatar {
+  background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+  color: #fff !important;
 }

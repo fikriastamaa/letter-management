@@ -24,7 +24,7 @@ const SuratMasuk = pgDb.define("surat_masuk", {
     allowNull: true,
   },
   file_path: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.TEXT, // Ubah dari STRING(255) ke TEXT agar bisa simpan suratan panjang
     allowNull: true,
   },
   status: {

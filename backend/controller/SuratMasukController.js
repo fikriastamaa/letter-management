@@ -1,10 +1,18 @@
 import SuratMasuk from '../models/SuratMasukModel.js';
 
-// GET all surat masuk
+// GET all surat masuk (filtered by role)
 async function getSuratMasuk(req, res) {
   try {
-    // Jika ingin filter berdasarkan user, bisa gunakan req.user_id (dari JWT/session)
-    const result = await SuratMasuk.findAll();
+    let where = {};
+    if (req.role === "user") {
+      // User hanya bisa lihat surat yang dia kirim
+      where.user_id_pengirim = req.user_id;
+    } else if (req.role === "petugas") {
+      // Petugas hanya bisa lihat surat yang ditujukan ke dia
+      where.user_id_tujuan = req.user_id;
+    }
+    // Admin bisa lihat semua surat (where tetap kosong)
+    const result = await SuratMasuk.findAll({ where });
     res.status(200).json(result);
   } catch (error) {
     console.log(error.message);
@@ -83,6 +91,16 @@ async function updateStatusSurat(req, res) {
     if (!surat) {
       return res.status(404).json({ message: 'Surat masuk not found' });
     }
+
+    // Pastikan tipe data sama (integer)
+    if (req.role === "petugas" && Number(surat.user_id_tujuan) !== Number(req.user_id)) {
+      return res.status(403).json({ message: "Petugas hanya boleh update status surat yang ditujukan ke dirinya" });
+    }
+    if (req.role === "user") {
+      return res.status(403).json({ message: "User tidak boleh update status surat" });
+    }
+    // Admin boleh update semua
+
     await surat.update({ status });
     res.status(200).json({ message: `Status surat berhasil diubah menjadi '${status}'` });
   } catch (error) {

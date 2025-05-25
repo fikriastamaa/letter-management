@@ -2,36 +2,28 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import NoteRoute from './routes/SuratRoute.js';
+import UserRoute from './routes/UserRoute.js'; // tambahkan ini
 import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
 
-// Configure CORS for credentials
+// Perbaiki CORS agar frontend (React) bisa akses backend
 app.use(cors({
-  // Allow requests from these origins (add your frontend URL)
   origin: [
+    'http://localhost:3000', // tambahkan ini agar frontend React bisa akses
     'http://localhost:5000'
-    // Add any other frontend origins as needed
   ],
-  // Allow credentials (cookies)
   credentials: true,
-  // Allowed HTTP methods
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  // Allowed headers
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Parse cookies
 app.use(cookieParser());
-
-// Parse JSON bodies
 app.use(express.json());
-
-// Use routes
 app.use(NoteRoute);
+app.use(UserRoute); // tambahkan ini agar route /users aktif
 
-// Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'Server is running' });
 });

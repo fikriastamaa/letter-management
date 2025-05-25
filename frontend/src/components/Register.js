@@ -35,12 +35,14 @@ const Register = () => {
     }
     
     setIsLoading(true);
+    setPasswordError('');
     
     try {
       const success = await register(email, username, password);
       if (success) {
         navigate('/login');
       }
+      // Jika gagal, pesan error sudah ditangani di context (authError)
     } finally {
       setIsLoading(false);
     }

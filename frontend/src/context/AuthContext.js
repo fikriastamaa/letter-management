@@ -133,7 +133,7 @@ export const AuthProvider = ({ children }) => {
 
   // Helper untuk request dengan Authorization header
   const authAxios = axios.create({
-    baseURL: BASE_URL,
+    baseURL: BASE_URL, // pastikan ini http://localhost:5000
   });
   authAxios.interceptors.request.use((config) => {
     if (token) {

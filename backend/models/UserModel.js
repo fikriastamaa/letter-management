@@ -10,7 +10,7 @@ const User = mysqlDb.define("user", {
     username: {
         type: DataTypes.STRING(50),
         allowNull: false,
-        unique: true,
+        unique: true, // pastikan hanya satu UNIQUE, jangan tambahkan index/unique lain di migration/manual
     },
     email: {
         type: DataTypes.STRING(100),
@@ -36,6 +36,6 @@ const User = mysqlDb.define("user", {
     },
 }, { freezeTableName: true, timestamps: false });
 
-mysqlDb.sync({ alter: true }).then(() => console.log("Database User table synchronized"));
+mysqlDb.sync().then(() => console.log("Database User table synchronized"));
 
 export default User;
