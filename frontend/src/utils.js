@@ -1,1 +1,1 @@
-export const BASE_URL = "http://localhost:5000";
+export const BASE_URL = "https://be-surat-86067911510.us-central1.run.app";
