@@ -11,6 +11,8 @@ const app = express();
 // Perbaiki CORS agar frontend (React) bisa akses backend
 app.use(cors({
   origin: [
+    'http://localhost:3000', // development frontend
+    'http://localhost:5000', // development backend
     'https://fe-surat-dot-pemuda-tobat.uc.r.appspot.com', // development frontend  
   ],
   credentials: true,
