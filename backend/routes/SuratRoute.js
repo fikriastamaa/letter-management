@@ -1,7 +1,7 @@
 import express from 'express';
 import { getSuratMasuk, createSuratMasuk, updateSuratMasuk, deleteSuratMasuk, updateStatusSurat } from '../controller/SuratMasukController.js';
 import { getJawabanSuratBySuratMasukId, getAllJawabanSurat, createJawabanSurat } from '../controller/JawabanSuratController.js';
-import { login, register, logout } from '../controller/UserController.js';
+import { login, register, logout, updateUserRole } from '../controller/UserController.js';
 import { verifyToken } from '../middleware/AuthMiddleware.js';
 import { refreshToken } from '../controller/RefreshToken.js';
 
@@ -25,5 +25,6 @@ router.get("/token", refreshToken);
 router.post("/login", login);
 router.post("/register", register);
 router.get("/logout", verifyToken, logout);
+router.patch("/users/:id/role", verifyToken, updateUserRole);
 
 export default router;

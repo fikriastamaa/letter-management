@@ -110,7 +110,11 @@ const NoteList = () => {
       await authAxios.delete(`${BASE_URL}/surat-masuk/${id}`);
       setSuratMasuk(suratMasuk.filter((surat) => surat.id !== id));
     } catch (error) {
-      setError("Failed to delete surat. Please try again.");
+      // Ambil pesan error dari backend jika ada
+      setError(
+        error.response?.data?.message ||
+        "Failed to delete surat. Please try again."
+      );
     }
   };
 

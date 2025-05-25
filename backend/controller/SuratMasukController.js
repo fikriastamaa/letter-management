@@ -1,4 +1,5 @@
 import SuratMasuk from '../models/SuratMasukModel.js';
+import JawabanSurat from '../models/JawabanSuratModel.js';
 
 // GET all surat masuk (filtered by role)
 async function getSuratMasuk(req, res) {
@@ -70,6 +71,21 @@ async function deleteSuratMasuk(req, res) {
     if (!surat) {
       return res.status(404).json({ message: 'Surat masuk not found' });
     }
+
+    // Role-based access control
+    if (req.role === "user") {
+      // User tidak boleh hapus surat
+      return res.status(403).json({ message: "User tidak boleh menghapus surat" });
+    }
+    if (req.role === "petugas" && Number(surat.user_id_tujuan) !== Number(req.user_id)) {
+      // Petugas hanya boleh hapus surat yang ditujukan ke dirinya
+      return res.status(403).json({ message: "Petugas hanya boleh menghapus surat yang ditujukan ke dirinya" });
+    }
+    // Admin boleh hapus semua surat
+
+    // Hapus semua jawaban terkait sebelum hapus surat
+    await JawabanSurat.destroy({ where: { id_surat_masuk: id } });
+
     await surat.destroy();
     res.status(200).json({ message: 'Surat masuk deleted successfully' });
   } catch (error) {

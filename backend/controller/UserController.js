@@ -194,6 +194,30 @@ async function login(req, res) {
     return res.sendStatus(200);
   }
 
+// PATCH user role (admin only)
+export async function updateUserRole(req, res) {
+  try {
+    // Pastikan hanya admin yang bisa update role
+    if (req.role !== "admin") {
+      return res.status(403).json({ message: "Hanya admin yang dapat mengubah role user" });
+    }
+    const { id } = req.params;
+    const { role } = req.body;
+    const validRoles = ["user", "petugas", "admin"];
+    if (!validRoles.includes(role)) {
+      return res.status(400).json({ message: "Role tidak valid" });
+    }
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ message: "User tidak ditemukan" });
+    }
+    await user.update({ role });
+    res.status(200).json({ message: "Role user berhasil diubah", user });
+  } catch (error) {
+    res.status(500).json({ message: "Gagal mengubah role user", error: error.message });
+  }
+}
+
 // Setelah login berhasil, safeUserData berisi user_id, username, role, dst.
 // Frontend dapat menyimpan safeUserData ke localStorage/sessionStorage untuk akses user_id, username, dan role selama sesi login.
 
