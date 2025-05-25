@@ -2,7 +2,7 @@ import express from 'express';
 import { getSuratMasuk, createSuratMasuk, updateSuratMasuk, deleteSuratMasuk, updateStatusSurat } from '../controller/SuratMasukController.js';
 import { getJawabanSuratBySuratMasukId, getAllJawabanSurat, createJawabanSurat } from '../controller/JawabanSuratController.js';
 import { login, register, logout } from '../controller/UserController.js';
-import { verifyToken } from '../middleware/VerifyToken.js';
+import { verifyToken } from '../middleware/verifyToken.js';
 import { refreshToken } from '../controller/RefreshToken.js';
 
 const router = express.Router();

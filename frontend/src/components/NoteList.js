@@ -200,12 +200,14 @@ const NoteList = () => {
     try {
       const newRole = editRole[userId];
       if (!newRole) return;
+      console.log("PATCH /users/" + userId + "/role", { role: newRole });
       await authAxios.patch(`${BASE_URL}/users/${userId}/role`, { role: newRole });
       // Refresh daftar user
       const res = await authAxios.get(`${BASE_URL}/users`);
       setAllUsers(res.data);
       setEditRole(prev => ({ ...prev, [userId]: undefined }));
     } catch (err) {
+      console.error("Gagal mengubah role user:", err.response || err);
       alert("Gagal mengubah role user.");
     }
   };

@@ -214,11 +214,18 @@ export async function getPetugasList(req, res) {
 // Update role user (admin only)
 export async function updateRole(req, res) {
   try {
-    // Pastikan hanya admin yang bisa update role
-    // Asumsi: req.user/req.role sudah diisi oleh middleware autentikasi JWT
-    // Jika belum, bisa ambil dari token di header Authorization
-    // Untuk contoh ini, ambil dari req.user/req.role jika ada
-    const requesterRole = req.role || req.user?.role;
+    let requesterRole = req.role || req.user?.role;
+    console.log("updateRole: requesterRole from req.role/req.user?.role =", requesterRole);
+    if (!requesterRole) {
+      // Coba ambil dari Authorization header
+      const authHeader = req.headers['authorization'];
+      const token = authHeader && authHeader.split(' ')[1];
+      if (token) {
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        requesterRole = decoded.role;
+        console.log("updateRole: requesterRole from decoded token =", requesterRole);
+      }
+    }
     if (requesterRole !== "admin") {
       return res.status(403).json({ message: "Hanya admin yang dapat mengubah role user" });
     }
@@ -238,6 +245,7 @@ export async function updateRole(req, res) {
     await user.update({ role });
     res.status(200).json({ message: "Role user berhasil diubah", user: { id: user.id, username: user.username, role } });
   } catch (error) {
+    console.error("updateRole error:", error);
     res.status(500).json({ message: "Gagal mengubah role user", error: error.message });
   }
 }
