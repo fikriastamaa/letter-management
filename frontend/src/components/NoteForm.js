@@ -16,27 +16,27 @@ const NoteForm = ({
 
   return (
     <div className="note-form">
-      <h2>{selectedNote ? 'Edit Note' : 'Add New Note'}</h2>
+      <h2>{selectedNote ? 'Edit Surat' : 'Add New Surat'}</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="title">Title</label>
+          <label htmlFor="title">Judul Surat</label>
           <input
             type="text"
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Note Title"
+            placeholder="Judul Surat"
             required
           />
         </div>
         
         <div className="form-group">
-          <label htmlFor="content">Content</label>
+          <label htmlFor="content">Isi Surat</label>
           <textarea
             id="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Note Content"
+            placeholder="Isi Surat"
             rows="5"
           />
         </div>
@@ -48,7 +48,7 @@ const NoteForm = ({
               onClick={onCancel} 
               className="button cancel-button"
             >
-              Cancel
+              Batal
             </button>
           )}
           
@@ -56,7 +56,7 @@ const NoteForm = ({
             type="submit" 
             className="button submit-button"
           >
-            {selectedNote ? 'Update Note' : 'Add Note'}
+            {selectedNote ? 'Update Surat' : 'Add Surat'}
           </button>
         </div>
       </form>
