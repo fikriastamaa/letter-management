@@ -48,7 +48,7 @@ const Login = () => {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <h1>Login to NoteX</h1>
+          <h1>Login to S-Mail</h1>
           <p>Welcome back! Please login to your account</p>
         </div>
         
